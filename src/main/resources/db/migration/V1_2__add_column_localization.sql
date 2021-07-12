@@ -1,0 +1,1 @@
+ALTER TABLE bird ADD COLUMN localization_id bigint not null
