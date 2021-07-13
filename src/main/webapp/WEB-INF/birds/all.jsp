@@ -9,7 +9,9 @@
 <table border="1">
     <thead>
     <th>name</th>
-    <th>localization</th>
+    <th>latin</th>
+    <th>voivodeship</th>
+    <th>city</th>
     <th></th>
     <th></th>
     </thead>
@@ -17,7 +19,9 @@
     <c:forEach items="${birds}" var="bird">
         <tr>
             <td><c:out value="${bird.name}"/></td>
-            <td></td>
+            <td><c:out value="${bird.latin}"/></td>
+            <td><c:out value="${bird.city.voivodeship.name}"/></td>
+            <td><c:out value="${bird.city.name}"/></td>
             <td>
                 <a href="<c:url value="/birds/${bird.id}/edit"/>">Edit</a>
             </td>

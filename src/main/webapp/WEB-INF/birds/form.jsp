@@ -8,7 +8,7 @@
 <form:form method="post" modelAttribute="bird">
     <form:input path="name"/>
     <form:input path="latin"/>
-    <form:select path="localization"/>
+    <form:select path="city" items="${cities}" itemValue="id" itemLabel="name"/>
     <input type="submit" value="Save">
 </form:form>
 </body>

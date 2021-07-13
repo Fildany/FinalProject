@@ -1,0 +1,16 @@
+package pl.coderslab.finalproject.entity;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "woje")
+public class Voivodeship {
+    @Id
+    private int id;
+    @Column(name = "nazwa")
+    private String name;
+
+}

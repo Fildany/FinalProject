@@ -13,7 +13,8 @@ public class Bird {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String latin;
     @ManyToOne
-    @JoinColumn(name = "localization_id")
-    private Localization localization;
+    @JoinColumn(name = "miasta_id")
+    private City city;
 }
