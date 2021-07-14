@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.finalproject.entity.Bird;
 import pl.coderslab.finalproject.repository.BirdRepository;
+import pl.coderslab.finalproject.repository.CityRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,7 @@ import java.util.Optional;
 public class BirdController {
 
     private final BirdRepository birdRepository;
-
+    private final CityRepository cityRepository;
 
     @GetMapping("/all")
     public String showPosts(Model model) {
@@ -30,6 +31,7 @@ public class BirdController {
     @GetMapping("/add")
     public String createBirdsForm(Model model) {
         model.addAttribute("bird", new Bird());
+        model.addAttribute("cities",cityRepository.findAll());
         return "birds/form";
     }
 
@@ -52,6 +54,7 @@ public class BirdController {
         Optional<Bird> bird = birdRepository.findById(id);
         Preconditions.checkState(bird.isPresent(), "Bird id: %s not found", id);
         model.addAttribute("bird", bird.get());
+        model.addAttribute("cities",cityRepository.findAll());
         return "birds/form";
     }
 
@@ -78,6 +81,15 @@ public class BirdController {
     @GetMapping("/{id}/delete/cancel")
     public String deleteCancel(@PathVariable long id) {
         return "redirect:/birds/all";
+    }
+
+
+    @GetMapping("/{id}/details")
+public String details(@PathVariable long id, Model model){
+        Optional<Bird> bird = birdRepository.findById(id);
+        Preconditions.checkState(bird.isPresent(), "Bird id: %s not found", id);
+        model.addAttribute("bird", bird.get());
+        return "birds/details";
     }
 }
 

@@ -1,12 +1,16 @@
 package pl.coderslab.finalproject.entity;
 
-import javax.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+import javax.persistence.*;
+@Getter
+@Setter
 @Entity
 @Table(name="miasta")
 public class City {
     @Id
-    private int id;
+    private Integer id;
     @Column(name = "nazwa")
     private String name;
     @ManyToOne

@@ -2,14 +2,16 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Bird form</title>
 </head>
 <body>
 <form:form method="post" modelAttribute="bird">
+    <label>name</label>
     <form:input path="name"/>
+    <label>latin name</label>
     <form:input path="latin"/>
     <form:select path="city" items="${cities}" itemValue="id" itemLabel="name"/>
-    <input type="submit" value="Save">
+    <button type="submit">save</button>
 </form:form>
 </body>
 </html>

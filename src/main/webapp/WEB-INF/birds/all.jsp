@@ -8,17 +8,21 @@
 <a href="/birds/add">Add</a>
 <table border="1">
     <thead>
-    <th>name</th>
-    <th>latin</th>
-    <th>voivodeship</th>
-    <th>city</th>
+    <th>Name</th>
+    <th>Latin</th>
+    <th>Voivodeship</th>
+    <th>City</th>
     <th></th>
     <th></th>
     </thead>
     <tbody>
     <c:forEach items="${birds}" var="bird">
         <tr>
-            <td><c:out value="${bird.name}"/></td>
+            <td>
+                <a href="<c:url value="/birds/${bird.id}/details"/>">
+                    <c:out value="${bird.name}"/>
+                </a>
+            </td>
             <td><c:out value="${bird.latin}"/></td>
             <td><c:out value="${bird.city.voivodeship.name}"/></td>
             <td><c:out value="${bird.city.name}"/></td>
