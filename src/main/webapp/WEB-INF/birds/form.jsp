@@ -14,10 +14,10 @@
     <form:select path="city" items="${cities}" itemValue="id" itemLabel="name"/>
     <button type="submit">save</button>
 </form:form>
-<c:if test="${error != null}">
-    <c:forEach items="${error.constraintViolations}" var="constraintViolation">
+<c:if test="${errors != null}">
+    <c:forEach items="${errors}" var="error">
         <div>
-                ${constraintViolation.propertyPath} : ${constraintViolation.message}
+                ${error.field} : ${error.defaultMessage}
         </div>
     </c:forEach>
 </c:if>
