@@ -46,9 +46,8 @@ public class BirdController {
             model.addAttribute("errors", bindingResult.getAllErrors());
             return "birds/form";
         }
-            birdRepository.save(bird);
-            return "redirect:/birds/all";
-
+        birdRepository.save(bird);
+        return "redirect:/birds/all";
     }
 
     @GetMapping("/{id}")
