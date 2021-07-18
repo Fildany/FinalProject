@@ -5,14 +5,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.finalproject.entity.Bird;
+import pl.coderslab.finalproject.entity.User;
 import pl.coderslab.finalproject.repository.BirdRepository;
 import pl.coderslab.finalproject.repository.CityRepository;
+import pl.coderslab.finalproject.repository.UserRepository;
 
-import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,10 +25,11 @@ public class BirdController {
 
     private final BirdRepository birdRepository;
     private final CityRepository cityRepository;
+    private final UserRepository userRepository;
 
     @GetMapping("/all")
-    public String showPosts(Model model) {
-        List<Bird> birds = birdRepository.findAll();
+    public String showPosts(Model model, Principal principal) {
+        List<Bird> birds = birdRepository.findAllByUserEmail(principal.getName());
         model.addAttribute("birds", birds);
         return "birds/all";
     }
@@ -40,12 +42,15 @@ public class BirdController {
     }
 
     @PostMapping("/add")
-    public String createBirds(@Valid Bird bird, BindingResult bindingResult, Model model) {
+    public String createBirds(@Valid Bird bird, BindingResult bindingResult, Model model, Principal principal) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("cities", cityRepository.findAllByOrderByName());
             model.addAttribute("errors", bindingResult.getAllErrors());
             return "birds/form";
         }
+        Optional<User> user = userRepository.findByEmail(principal.getName());
+        Preconditions.checkState(user.isPresent(),"user not found");
+        bird.setUser(user.get());
         birdRepository.save(bird);
         return "redirect:/birds/all";
     }
@@ -68,12 +73,15 @@ public class BirdController {
     }
 
     @PostMapping("/{id}/edit")
-    public String edit(@Valid Bird bird, BindingResult bindingResult, Model model) {
+    public String edit(@Valid Bird bird, BindingResult bindingResult, Model model, Principal principal) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("cities", cityRepository.findAllByOrderByName());
             model.addAttribute("errors", bindingResult.getAllErrors());
             return "birds/form";
         }
+        Optional<User> user = userRepository.findByEmail(principal.getName());
+        Preconditions.checkState(user.isPresent(),"user not found");
+        bird.setUser(user.get());
         birdRepository.save(bird);
         return "redirect:/birds/all";
     }

@@ -21,4 +21,8 @@ public class Bird {
     @JoinColumn(name = "miasta_id")
     @NotNull
     private City city;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
