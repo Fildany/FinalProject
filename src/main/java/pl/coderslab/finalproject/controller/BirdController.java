@@ -28,8 +28,8 @@ public class BirdController {
     private final UserRepository userRepository;
 
     @GetMapping("/all")
-    public String showPosts(Model model, Principal principal) {
-        List<Bird> birds = birdRepository.findAllByUserEmail(principal.getName());
+    public String showPosts(Model model, Principal currentUser) {
+        List<Bird> birds = birdRepository.findAllByUserEmail(currentUser.getName());
         model.addAttribute("birds", birds);
         return "birds/all";
     }
@@ -42,13 +42,13 @@ public class BirdController {
     }
 
     @PostMapping("/add")
-    public String createBirds(@Valid Bird bird, BindingResult bindingResult, Model model, Principal principal) {
+    public String createBirds(@Valid Bird bird, BindingResult bindingResult, Model model, Principal currentUser) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("cities", cityRepository.findAllByOrderByName());
             model.addAttribute("errors", bindingResult.getAllErrors());
             return "birds/form";
         }
-        Optional<User> user = userRepository.findByEmail(principal.getName());
+        Optional<User> user = userRepository.findByEmail(currentUser.getName());
         Preconditions.checkState(user.isPresent(),"user not found");
         bird.setUser(user.get());
         birdRepository.save(bird);
@@ -73,13 +73,13 @@ public class BirdController {
     }
 
     @PostMapping("/{id}/edit")
-    public String edit(@Valid Bird bird, BindingResult bindingResult, Model model, Principal principal) {
+    public String edit(@Valid Bird bird, BindingResult bindingResult, Model model, Principal currentUser) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("cities", cityRepository.findAllByOrderByName());
             model.addAttribute("errors", bindingResult.getAllErrors());
             return "birds/form";
         }
-        Optional<User> user = userRepository.findByEmail(principal.getName());
+        Optional<User> user = userRepository.findByEmail(currentUser.getName());
         Preconditions.checkState(user.isPresent(),"user not found");
         bird.setUser(user.get());
         birdRepository.save(bird);

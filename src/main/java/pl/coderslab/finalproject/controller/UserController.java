@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import pl.coderslab.finalproject.entity.User;
 import pl.coderslab.finalproject.repository.UserRepository;
 
-import javax.annotation.security.PermitAll;
 import javax.validation.Valid;
 
 @Controller
